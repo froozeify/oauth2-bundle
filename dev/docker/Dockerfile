@@ -1,6 +1,6 @@
 ARG PHP_VERSION=7.2
 
-FROM php:${PHP_VERSION}-cli-alpine3.10
+FROM php:${PHP_VERSION}-cli-alpine3.12
 LABEL maintainer="Petar Obradović <petar.obradovic@trikoder.net>"
 
 ARG COMPOSER_VERSION=1.9.3
