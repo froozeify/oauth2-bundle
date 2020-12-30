@@ -9,6 +9,7 @@ ARG TIMECOP_VERSION=1.2.10
 ARG XDEBUG_VERSION=3.0.1
 
 ENV XDEBUG_REMOTE_AUTOSTART 0
+ENV XDEBUG_MODE debug
 ENV TIMECOP_FUNC_OVERRIDE 0
 
 # This is where we're going to store all of our non-project specific binaries
@@ -35,10 +36,10 @@ RUN apk add --update --no-cache --virtual .build-deps \
 RUN mv ${PHP_INI_DIR}/php.ini-development ${PHP_INI_DIR}/php.ini
 
 RUN echo '[xdebug]' >> ${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini \
-    && echo 'xdebug.remote_autostart = ${XDEBUG_REMOTE_AUTOSTART}' >> ${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini \
-    && echo 'xdebug.remote_enable = 1' >> ${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini \
-    && echo 'xdebug.remote_connect_back = 0' >> ${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini \
-    && echo 'xdebug.remote_host = %XDEBUG_REMOTE_HOST%' >> ${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini
+    && echo 'xdebug.mode = ${XDEBUG_MODE}' >> ${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini \
+    && echo 'xdebug.start_with_request = yes' >> ${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini \
+    && echo 'xdebug.discover_client_host = false' >> ${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini \
+    && echo 'xdebug.client_host = %XDEBUG_REMOTE_HOST%' >> ${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini
 
 RUN echo '[timecop]' >> ${PHP_INI_DIR}/conf.d/docker-php-ext-timecop.ini \
     && echo 'timecop.func_override = ${TIMECOP_FUNC_OVERRIDE}' >> ${PHP_INI_DIR}/conf.d/docker-php-ext-timecop.ini
